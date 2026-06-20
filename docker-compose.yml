@@ -1,6 +1,5 @@
-version: "3.8"
-
 services:
+
   postgres:
     image: postgres:16
     container_name: apim-postgres
@@ -10,13 +9,16 @@ services:
       POSTGRES_PASSWORD: apim
     ports:
       - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U apim"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
 
-volumes:
-  pgdata:
+  app:
+    build: .
+    container_name: apim-app
+    depends_on:
+      postgres:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/apim
+      SPRING_DATASOURCE_USERNAME: apim
+      SPRING_DATASOURCE_PASSWORD: apim
+    ports:
+      - "8080:8080"

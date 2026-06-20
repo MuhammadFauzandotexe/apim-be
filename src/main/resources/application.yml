@@ -3,7 +3,7 @@ spring:
     name: apim-be
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/apim
+    url: jdbc:postgresql://postgres:5432/apim
     username: apim
     password: apim
     driver-class-name: org.postgresql.Driver
